@@ -1,0 +1,198 @@
+<!-- <h2 align="center" class="upper">Signup</h2>
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        FirstName: <input type="text" class="form-control" [(ngModel)]="firstName" /><br>
+        LastName:<input type="text" class="form-control" [(ngModel)]="lastName"/><br>
+        Dob:<input type="date" class="form-control" [(ngModel)]="Dob"/><br>
+        Gender:<input type="text" class="form-control" [(ngModel)]="gender"/><br>
+        Email: <input type="text" [(ngModel)]="email" class="form-control" /><br>
+        Phone:<input type="text" class="form-control" [(ngModel)]="phone"/><br>
+        Password: <input type="text" [(ngModel)]="password" class="form-control" /><br>
+        Pincode:<input type="text" class="form-control" [(ngModel)]="pincode"/><br>
+        
+        <button class="btn btn-primary" type="button" (click)="signup()">Signup</button>
+        <a class="nav-link" routerLink="/login" tabindex="-1">Login</a>
+    </div>
+</div>
+<br>
+ 
+   -->
+ 
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+<title>Bootstrap Simple Registration Form</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<style>
+body {
+	color: #fff;
+	background: #63738a;
+	font-family: 'Roboto', sans-serif;
+}
+.form-control {
+	height: 40px;
+	box-shadow: none;
+	color: #969fa4;
+}
+.form-control:focus {
+	border-color: #5cb85c;
+}
+.form-control, .btn {        
+	border-radius: 3px;
+}
+.signup-form {
+	width: 450px;
+	margin: 0 auto;
+	padding: 30px 0;
+  	font-size: 15px;
+}
+.signup-form h2 {
+	color: #636363;
+	margin: 0 0 15px;
+	position: relative;
+	text-align: center;
+}
+.signup-form h2:before, .signup-form h2:after {
+	content: "";
+	height: 2px;
+	width: 30%;
+	background: #d4d4d4;
+	position: absolute;
+	top: 50%;
+	z-index: 2;
+}	
+.signup-form h2:before {
+	left: 0;
+}
+.signup-form h2:after {
+	right: 0;
+}
+.signup-form .hint-text {
+	color: #999;
+	margin-bottom: 30px;
+	text-align: center;
+}
+.signup-form form {
+	color: #999;
+	border-radius: 3px;
+	margin-bottom: 15px;
+	background: #f2f3f7;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+	padding: 30px;
+}
+.signup-form .form-group {
+	margin-bottom: 20px;
+}
+.signup-form input[type="checkbox"] {
+	margin-top: 3px;
+}
+.signup-form .btn {        
+	font-size: 16px;
+	font-weight: bold;		
+	min-width: 140px;
+	outline: none !important;
+}
+.signup-form .row div:first-child {
+	padding-right: 10px;
+}
+.signup-form .row div:last-child {
+	padding-left: 10px;
+}    	
+.signup-form a {
+	color: #fff;
+	text-decoration: underline;
+}
+.signup-form a:hover {
+	text-decoration: none;
+}
+.signup-form form a {
+	color: #5cb85c;
+	text-decoration: none;
+}	
+.signup-form form a:hover {
+	text-decoration: underline;
+}  
+</style>
+</head>
+<body>
+<div class="signup-form">
+    <form [formGroup]="signupForm" (ngSubmit)="signup()">
+		<h2>Register</h2>
+		
+        <div class="form-group" >
+			
+				<div class="form-group"><input type="text" class="form-control" name="firstName"  formControlName="firstName"   placeholder="First Name" required="required"></div>
+				<span class="err"
+                *ngIf="signupForm.get('firstName')?.touched  && signupForm.get('firstName')?.hasError('required')">Please
+                Enter FirstName</span>
+				</div>
+
+				<div class="form-group">
+					<input type="text" class="form-control" name="lastName" formControlName="lastName"  placeholder="Last Name" required="required"></div>
+					<span class="err"
+					*ngIf="signupForm.get('firstName')?.touched  && signupForm.get('firstName')?.hasError('required')">Please
+                Enter LastName</span>
+			
+        
+        <div class="form-group">
+<input type="date" class="form-control" formControlName="Dob"  name="Date Of Birth" placeholder="dd-MM-yyyy">
+<span class="err"
+                *ngIf="signupForm.get('Dob')?.touched  && signupForm.get('Dob')?.hasError('required')">Please
+                Enter Dob</span>
+        </div>
+        <div class="form-group">
+        	<input type="email" class="form-control" formControlName="email" name="email" placeholder="Email" required="required">    
+			<span class="err"
+			*ngIf="signupForm.get('email')?.touched  && signupForm.get('email')?.hasError('required')">Please
+			Enter Dob</span>      
+		</div>
+        
+        <div class="form-group">
+            <div class="row"></div>
+            Gender:<input type="radio" name="gender" formControlName="gender" value="male"> Male
+            <input type="radio" name="gender" formControlName="gender" value="female"> Female
+			<span class="err"
+			*ngIf="signupForm.get('gender')?.touched  && signupForm.get('gender')?.hasError('required')">Please
+			Enter gender</span>  
+            <input type="text" name="phone" formControlName="phone"  placeholder="Phone-No">
+			<span class="err"
+			*ngIf="signupForm.get('phone')?.touched  && signupForm.get('phone')?.hasError('required')">Please
+			Enter Phone-No</span> 
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" formControlName="pincode" name="pincode" placeholder="Pincode" required="required">
+			<span class="err"
+			*ngIf="signupForm.get('pincode')?.touched  && signupForm.get('pincode')?.hasError('required')">Please
+			Enter pincode</span> 
+		</div>    
+		<div class="form-group">
+            <input type="password" class="form-control" formControlName="password"  name="password" placeholder="Password" required="required">
+			<span class="err"
+			*ngIf="signupForm.get('password')?.touched  && signupForm.get('password')?.hasError('required')">Please
+			Enter password</span> 
+		</div>
+		    
+        <div class="form-group">
+			<label class="form-check-label"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
+		</div>
+		<div class="form-group">
+            <button type="button" class="btn btn-success btn-lg btn-block"  (click)="signup()">Register Now</button>
+            
+        </div>
+        
+    </form>
+	
+    <div class="nav-link" >Already have an account? <a  routerLink="/login" tabindex="-1">Login</a></div>
+</div>
+</body>
+</html>
