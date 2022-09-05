@@ -45,12 +45,11 @@
   
 // }
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormControlDirective, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
- 
 import { ToastrService } from 'ngx-toastr';
 import { SessionService } from '../session.service';
- 
+import { AbstractControl, FormControl, FormGroup, FormsModule, ValidationErrors, Validators } from '@angular/forms';
+  
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',

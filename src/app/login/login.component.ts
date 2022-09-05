@@ -1,45 +1,61 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { AuthTokenService} from '../auth-token.service';
 import { SessionService } from '../session.service';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  loginform: FormGroup;
+  emailPattern = "^[a-z0-9]+@gmail.com";
+  otpsend: FormGroup;
+  display: boolean = false;
 
-  email = ""
-  password = ""
 
-  constructor(private sessionService: SessionService, private toastr: ToastrService, private router: Router, private authTokenService: AuthTokenService) { }
+  constructor(private toastr: ToastrService, private router: Router,private sessionService:SessionService) {
+    this.loginform = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)]),
+      password: new FormControl('', [Validators.required]),
+
+    })
+    this.otpsend = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)]),
+    })
+   }
+
 
   ngOnInit(): void {
   }
-
-  login() {
-    let user = { "email": this.email, "password": this.password }
-    this.sessionService.loginApi(user).subscribe(resp => {
-
-      //json 
-      console.log(resp.data.user);
-      let authToken = resp.data.user.authToken
-
-      localStorage.setItem("authToken", authToken)
-      localStorage.setItem("userId",resp.data.user.userId)
-      localStorage.setItem("email",resp.data.user.email)
-      localStorage.setItem("firstName",resp.data.user.firstName)
-      this.toastr.success("Login done"+resp.data.user.authToken)
-
-      this.authTokenService.authToken = resp.data.user.authToken
-      this.authTokenService.userId = resp.data.user.userId 
-      
-      if (resp.data.user.role.roleName == "users") {
+  otpsende(){
+    console.log(this.otpsend.value);
+    if(this.otpsend.valid){
+      this.sessionService.emailsend(this.otpsend.value).subscribe(res => {
+        this.toastr.success("otp send successfully")
+        localStorage.setItem("email",this.otpsend.value.email)
+        this.router.navigateByUrl("/forgotpassword")
+      }, err => {
+        this.toastr.error("something went wrong")
+        console.log(err);
+      })
+    } else {
+      this.toastr.error("please check email")
+    }
+  }
+  showDialog() {
+    this.display = true;
+  
+  }
+login(){
+  if (this.loginform.valid) {
+    this.sessionService.loginApi(this.loginform.value).subscribe(res => {
+      this.toastr.success("login success")
+      if (res.data.user.role.roleName == "user") {
 
         this.router.navigateByUrl("/user/home")
-      } else if (resp.data.user.role.roleName == "admin") {
+      } else if (res.data.user.role.roleName == "admin") {
 
         this.router.navigateByUrl("/dashboard")
       }
@@ -49,9 +65,5 @@ export class LoginComponent implements OnInit {
       this.toastr.error("Invalid Credentials....", "401")
     })
   }
-
-
-  //Bcrypt
-  //@Transcational 
-
+}
 }
