@@ -84,11 +84,11 @@ height: 100%;
                 </div>
       
                 <div class="text-center text-lg-start mt-4 pt-2">
-                  <button type="button" class="btn btn-primary btn-lg"
+                  <button type="button" class="btn btn-primary btn-lg"  (click)="login()"
                     style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
                   <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a routerLink="/signup"
                       class="link-danger">Register</a></p>
-                       <p class="small fw-bold mt-2 pt-1 mb-0" (click)="showDialog()">Forgot Password</p> 
+                       <!-- <p class="small fw-bold mt-2 pt-1 mb-0" (click)="showDialog()">Forgot Password</p>  -->
                 </div>
       
               </form>
@@ -101,7 +101,7 @@ height: 100%;
 
       <p-dialog header="Send otp to Email" [style]="{width: '40vw'}" [(visible)]="display">
       <div class="dialogform">
-      <form [formGroup]="otpsend" (ngSubmit)="otpsende()">
+      <form [formGroup]="otpsend" (ngSubmit)="otpsend1()">
         <label for="email">Email: </label>
         <div class="row">
             <div class="col-md-10">

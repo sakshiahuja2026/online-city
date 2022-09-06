@@ -1,33 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { ToastrService } from 'ngx-toastr';
-// import { SessionService } from '../session.service';
-// @Component({
-//   selector: 'app-forgotpassword',
-//   templateUrl: './forgotpassword.component.html',
-//   styleUrls: ['./forgotpassword.component.css']
-// })
-// export class ForgotpasswordComponent implements OnInit {
- 
-//  email=""
-//   route: any;
-//   constructor(private toastr:ToastrService,private router:Router,private sessionService:SessionService) { }
-
-//   ngOnInit(): void {
-//   }
-// forgotpassword(){
-//   let email = { "forgotpassword": this.email }
-//   this.sessionService.forgotpasswordApi(email).subscribe(resp => {
-//     console.log(resp);
-
-//     console.log(resp.data.user);
-//     localStorage.setItem("email",resp.data.user.email)
-    
-//     // this.route.navigateByUrl("/newpassword")
-//   })
-// }
-// }
-import { style } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -43,7 +13,7 @@ export class ForgotpasswordComponent implements OnInit {
   emailform: FormGroup;
   resetform: FormGroup;
   display: boolean = false;
-  constructor(private tostr: ToastrService, private router: Router,private sessionService:SessionService) {
+  constructor(private tostr: ToastrService, private router: Router, private sessionservice: SessionService) {
     let email = localStorage.getItem("email")
 
     this.emailform = new FormGroup({
@@ -53,9 +23,10 @@ export class ForgotpasswordComponent implements OnInit {
 
     this.resetform = new FormGroup({
       email: new FormControl(),
-      password: new FormControl('', [Validators.required,Validators.minLength(8),this.strongpassword]),
+      password: new FormControl('', [Validators.required])
     })
     this.emailform.controls['email'].setValue(email);
+    this.resetform.controls['email'].setValue(email);
 
   }
 
@@ -71,7 +42,7 @@ export class ForgotpasswordComponent implements OnInit {
   emailverify() {
     console.log(this.emailform.value);
     if (this.emailform.valid) {
-      this.sessionService.checkotp(this.emailform.value).subscribe(res => {
+       this.sessionservice.checkotp(this.emailform.value).subscribe(res => {
         console.log(res);
         this.tostr.success(res)
         this.showDialog()
@@ -84,9 +55,12 @@ export class ForgotpasswordComponent implements OnInit {
   resetpassword() {
     console.log(this.resetform.value);
     if (this.resetform.valid) {
-      this.sessionService.resetpassword(this.resetform.value).subscribe(res => {
+      
+      this.sessionservice.resetpassword(this.resetform.value).subscribe(res => {
+        // localStorage.setItem("email",res.data.user.email)
         console.log(res);
         this.tostr.success(res)
+        
     document.getElementById("body")?.setAttribute("style","background-color:white")
         this.router.navigateByUrl("/login")
       }, err => {
@@ -96,34 +70,34 @@ export class ForgotpasswordComponent implements OnInit {
     }
 
   }
-  strongpassword(password: AbstractControl): ValidationErrors | null {
-    let isUpper = false
-    let isLower = false
-    let isSpecial = false
-    let isDigit = false
-    let passwordValue = password.value as string
+  // strongpassword(password: AbstractControl): ValidationErrors | null {
+  //   let isUpper = false
+  //   let isLower = false
+  //   let isSpecial = false
+  //   let isDigit = false
+  //   let passwordValue = password.value as string
 
-    if (passwordValue.length < 8)
-      return null
+  //   if (passwordValue.length < 8)
+  //     return null
 
-    for (let i = 0; i < passwordValue.length; i++) {
-      if (passwordValue.charAt(i) >= 'A' && passwordValue.charAt(i) <= 'Z') {
-        isUpper = true
-      } else if (passwordValue.charAt(i) >= 'a' && passwordValue.charAt(i) <= 'z') {
-        isLower = true
-      }
-      else if (passwordValue.charAt(i) == '$' || passwordValue.charAt(i) == '#' || passwordValue.charAt(i) == '@') {
-        isSpecial = true
-      }
-      else if (passwordValue.charAt(i) >= '0' && passwordValue.charAt(i) <= '9') {
-        isDigit = true
-      }
-    }
+  //   for (let i = 0; i < passwordValue.length; i++) {
+  //     if (passwordValue.charAt(i) >= 'A' && passwordValue.charAt(i) <= 'Z') {
+  //       isUpper = true
+  //     } else if (passwordValue.charAt(i) >= 'a' && passwordValue.charAt(i) <= 'z') {
+  //       isLower = true
+  //     }
+  //     else if (passwordValue.charAt(i) == '$' || passwordValue.charAt(i) == '#' || passwordValue.charAt(i) == '@') {
+  //       isSpecial = true
+  //     }
+  //     else if (passwordValue.charAt(i) >= '0' && passwordValue.charAt(i) <= '9') {
+  //       isDigit = true
+  //     }
+  //   }
 
-    if (isLower && isUpper && isSpecial && isDigit)
-      return null
-    else
-      return { "strongPassword": true }
-  }
+  //   if (isLower && isUpper && isSpecial && isDigit)
+  //     return null
+  //   else
+  //     return { "strongPassword": true }
+  // }
 
 }

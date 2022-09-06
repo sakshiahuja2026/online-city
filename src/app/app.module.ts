@@ -14,7 +14,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ListUsersComponent } from './list-users/list-users.component';
 import { SpspComponent } from './spsp/spsp.component';
 import { ForgotpasswordComponent } from './forgotpassword/forgotpassword.component';
-import { NewpasswordComponent } from './newpassword/newpassword.component';
 import { LoginComponent } from './login/login.component';
 
 
@@ -27,7 +26,7 @@ import { LoginComponent } from './login/login.component';
     ListUsersComponent,
     SpspComponent,
     ForgotpasswordComponent,
-    NewpasswordComponent,
+    
     LoginComponent, 
   ],
   imports: [

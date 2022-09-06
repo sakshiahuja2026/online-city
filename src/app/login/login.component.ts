@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  otpsende(){
+  otpsend1(){
     console.log(this.otpsend.value);
     if(this.otpsend.valid){
       this.sessionService.emailsend(this.otpsend.value).subscribe(res => {
@@ -54,7 +54,7 @@ login(){
       this.toastr.success("login success")
       if (res.data.user.role.roleName == "user") {
 
-        this.router.navigateByUrl("/user/home")
+        this.router.navigateByUrl("/home")
       } else if (res.data.user.role.roleName == "admin") {
 
         this.router.navigateByUrl("/dashboard")
